@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Trip Planner</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Castoro+Titling&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            {% load static %}
+            background-image: url('{% static "home/Group 363.png"%}'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-left: 100px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-family: 'Quicksand', sans-serif;
+            color: #40B59F;
+            background-color: #FFF;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 2px solid #40B59F;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #fff; /* Change background to white on hover */
+            color: #40B59F; /* Change text color to green */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-family: 'Quicksand', sans-serif;">Welcome to your</h1>
+        <h2 style="font-family: 'Castoro Titling', serif;">Personalized Trip Planner</h2>
+        <a href="/start/" class="btn">Begin</a>
+    </div>
+</body>
+</html>
