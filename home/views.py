@@ -1,6 +1,6 @@
 from django.core.checks import messages
 from django.db import connection
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from .models import City, Activity, Image  # Import your Activity model
 def homepage(request):
@@ -12,7 +12,14 @@ def userInput(request):
 def activities(request):
     return render(request, 'home/activities.html')
 def itinerary(request):
-    return render(request, 'home/itinerary.html')
+    if request.method == 'POST':
+        selected_activity_ids = request.POST.getlist('activity_ids')
+        if selected_activity_ids:
+            # Process the selected activity IDs (e.g., save to session or database)
+            return render(request, 'home/itinerary.html', {'selected_activities': selected_activity_ids})
+        else:
+            return HttpResponse("No activities were selected.")
+
 def admin_page(request):
     if not request.session.get('is_admin'):  # Check if admin is logged in
         return redirect('admin_login')
@@ -24,7 +31,7 @@ def admin_page(request):
 
     return render(request, 'admin.html', {'activities': activities, 'columns': columns})
 
-def add_activity(request, activity_id):
+def add_activity(request):
     if request.method == 'POST':
         # Get data from the form
         title = request.POST['title']
@@ -43,19 +50,9 @@ def add_activity(request, activity_id):
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """, [title, description, opening_hour, closing_hour, latitude, longitude, city_id, image_id])
         return redirect('admin_page')
-
-    # If `activity_id` is provided, fetch data to pre-fill the form
-    initial_data = {}
-    if activity_id:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM activity WHERE activity_id=%s", [activity_id])
-            columns = [col[0] for col in cursor.description]
-            data = cursor.fetchone()
-            if data:
-                initial_data = dict(zip(columns, data))
-
-    return render(request, 'add_activity.html', {'initial_data': initial_data})
-
+ # Handle GET requests
+    if request.method == 'GET':
+        return render(request, 'add_activity.html')
 
 def delete_activity(request, activity_id):
     with connection.cursor() as cursor:

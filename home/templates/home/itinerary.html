@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +41,9 @@
 </head>
 <body>
   <h1>Your itinerary in <span id="city-name">Paris</span> is ready</h1>
-  <div id="map"></div>
+  <div>
+      <img src="{% static 'images/map.png' %}" alt="map">
+  </div>
 
   <script>
     const itineraryData = {

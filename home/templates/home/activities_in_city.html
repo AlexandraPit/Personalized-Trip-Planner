@@ -45,6 +45,7 @@
             overflow: hidden;
             text-align: center;
             width: 280px;
+            position: relative;
         }
 
         .activity-card img {
@@ -63,31 +64,70 @@
             margin: 5px 10px;
         }
 
+        .checkbox-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .checkbox-container input {
+            transform: scale(1.5);
+        }
+
+        .submit-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
         .no-activities {
             font-size: 1.2em;
             color: #666;
             margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <h1>Activities in {{ selected_city.name }}</h1>
     <div class="container">
-        {% if activities %}
-            <ul class="activity-list">
-                {% for activity in activities %}
-                <li class="activity-card">
-                  <img src="{% static activity.image.url %}" alt="{{ activity.title }}">
-                    <h2>{{ activity.title }}</h2>
-                    <p>{{ activity.description }}</p>
-                    <p><strong>Opening Hours:</strong> {{ activity.opening_hour }}</p>
-                    <p><strong>Closing Hours:</strong> {{ activity.closing_hour }}</p>
-                </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p class="no-activities">No activities found for {{ city_name }}.</p>
-        {% endif %}
+        <form action="{% url 'itinerary' %}" method="post">
+            {% csrf_token %}
+            {% if activities %}
+                <ul class="activity-list">
+                    {% for activity in activities %}
+                    <li class="activity-card">
+                        <div class="checkbox-container">
+                            <input type="checkbox" name="activity_ids" value="{{ activity.activity_id }}">
+                        </div>
+                        <img src="{{ activity.image.image }}" alt="{{ activity.title }}">
+
+                        <h2>{{ activity.title }}</h2>
+                        <p>{{ activity.description }}</p>
+                        <p><strong>Opening Hours:</strong> {{ activity.opening_hour }}</p>
+                        <p><strong>Closing Hours:</strong> {{ activity.closing_hour }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <button type="submit" class="submit-button">Submit Selected Activities</button>
+            {% else %}
+                <p class="no-activities">No activities found for {{ city_name }}.</p>
+            {% endif %}
+        </form>
     </div>
 </body>
 </html>
