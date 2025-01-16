@@ -6,7 +6,6 @@
     <title>Personalized Trip Planner</title>
     {% load static %}
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Castoro+Titling&display=swap" rel="stylesheet">
-{#    <link rel="stylesheet" href="{% static 'css/style.css' %}">#}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,9 +50,30 @@
             background-color: #fff; /* Change background to white on hover */
             color: #40B59F; /* Change text color to green */
         }
+        .admin-btn {
+            position: absolute;
+            top: 20px; /* Adjust vertical position */
+            right: 20px; /* Adjust horizontal position */
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Quicksand', sans-serif;
+            color: #FFF;
+            background-color: #40B59F;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            writing-mode: vertical-rl; /* Makes the text vertical */
+            text-orientation: mixed;
+        }
+        .admin-btn:hover {
+            background-color: #2e8875;
+        }
     </style>
 </head>
 <body>
+    <a href="/custom-admin/" class="admin-btn">Admin</a> <!-- Admin button -->
     <div class="container">
         <h1 style="font-family: 'Quicksand', sans-serif;">Welcome to your</h1>
         <h2 style="font-family: 'Castoro Titling', serif;">Personalized Trip Planner</h2>

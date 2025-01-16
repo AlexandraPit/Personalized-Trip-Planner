@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .btn {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #40B59F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #35a488;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Page</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Opening Hour</th>
+                <th>Closing Hour</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>City ID</th>
+                <th>Image ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in activities %}
+            <tr>
+                <td>{{ activity.activity_id }}</td>
+                <td>{{ activity.title }}</td>
+                <td>{{ activity.description }}</td>
+                <td>{{ activity.opening_hour }}</td>
+                <td>{{ activity.closing_hour }}</td>
+                <td>{{ activity.latitude }}</td>
+                <td>{{ activity.longitude }}</td>
+                <td>{{ activity.city_id }}</td>
+                <td>{{ activity.image_id }}</td>
+                <td>
+                     <a href="{% url 'edit_activity' activity.activity_id %}" class="btn">Edit</a>
+                     <a href="{% url 'delete_activity' activity.activity_id %}" class="btn" onclick="return confirm('Are you sure you want to delete this activity?');">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+     <a href="{% url 'add_activity' activity.activity_id %}" class="btn">Add</a>
+     <a href="{% url 'admin_logout' %}" class="btn" style="background-color: #FF0000; color: white;">Logout</a>
+
+    <script>
+        function editActivity(id) {
+            // Logic to open a form for editing the activity
+            alert(`Edit activity with ID ${id}`);
+        }
+
+        function deleteActivity(id) {
+            // Logic to delete the activity
+            alert(`Delete activity with ID ${id}`);
+        }
+
+        function addActivity() {
+            // Logic to open a form for adding a new activity
+            alert('Add a new activity');
+        }
+    </script>
+</body>
+</html>

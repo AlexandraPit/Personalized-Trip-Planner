@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Activity</title>
+</head>
+<body>
+    <h1>Edit Activity</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Title:</label>
+        <input type="text" name="title" value="{{ activity.title }}" required><br>
+
+        <label>Description:</label>
+        <textarea name="description" required>{{ activity.description }}</textarea><br>
+
+        <label>Opening Hour:</label>
+        <input type="time" name="opening_hour" value="{{ activity.opening_hour }}" required><br>
+
+        <label>Closing Hour:</label>
+        <input type="time" name="closing_hour" value="{{ activity.closing_hour }}" required><br>
+
+        <label>Latitude:</label>
+        <input type="number" step="0.000001" name="latitude" value="{{ activity.latitude }}" required><br>
+
+        <label>Longitude:</label>
+        <input type="number" step="0.000001" name="longitude" value="{{ activity.longitude }}" required><br>
+
+        <label>City ID:</label>
+        <input type="number" name="city_id" value="{{ activity.city_id }}" required><br>
+
+        <label>Image ID:</label>
+        <input type="number" name="image_id" value="{{ activity.image_id }}" required><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

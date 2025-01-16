@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Castoro+Titling&display=swap" rel="stylesheet">
   <title>Personalized Trip Planner</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Quicksand', sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
@@ -103,6 +104,7 @@
     }
 
     .middle-section h2 {
+        font-family: 'Quicksand', sans-serif;
       margin-bottom: 20px;
       color: #333;
     }
@@ -190,7 +192,7 @@
         </select>
       </div>
       <div class="buttons">
-        <button onclick="goBack()">Skip</button>
+        <button onclick="skip()">Skip</button>
         <button onclick="goNext()">Next Step</button>
       </div>
     </div>
@@ -241,13 +243,24 @@
       });
     });
 
-    function goBack() {
-      alert("Navigating to previous page!");
-    }
+    function skip() {
+    // Simply navigate to the next page without saving anything
+    window.location.href = "{% url 'itinerary' %}";  // Replace with your next page URL
+  }
 
-    function goNext() {
-      window.location.href = "{% url 'itinerary' %}";
-    }
+  // Function to handle the next step button click
+  function goNext() {
+    // Get the selected hobby and preference values
+    const hobby = document.getElementById('hobbies').value;
+    const preference = document.getElementById('preferences').value;
+
+    // Save the selected values to localStorage
+    localStorage.setItem('selectedHobby', hobby);
+    localStorage.setItem('selectedPreference', preference);
+
+    // Navigate to the next page
+    window.location.href = "{% url 'itinerary' %}";  // Replace with your next page URL
+  }
   </script>
 </body>
 </html>

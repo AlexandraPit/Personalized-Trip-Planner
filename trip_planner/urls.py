@@ -27,4 +27,11 @@ urlpatterns = [
     path('userInput/', views.userInput, name='userInput'),
     path('activities/', views.activities, name='activities'),
     path('itinerary/', views.itinerary, name='itinerary'),
+    path('custom-admin/login/', views.admin_login, name='admin_login'),
+    path('custom-admin/logout/', views.admin_logout, name='admin_logout'),
+    path('custom-admin/', views.admin_page, name='admin_page'),
+    path('custom-admin/add/', views.add_activity, name='add_activity'),
+    path('custom-admin/edit/<int:activity_id>/', views.edit_activity, name='edit_activity'),
+    path('custom-admin/delete/<int:activity_id>/', views.delete_activity, name='delete_activity'),
+    path('search_cities/', views.search_cities, name='search_cities'),
 ]

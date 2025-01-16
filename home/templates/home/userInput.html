@@ -9,9 +9,10 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Castoro+Titling&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Quicksand', sans-serif;
       text-align: center;
       padding: 20px;
     }
@@ -31,6 +32,12 @@
       cursor: pointer;
       margin-top: 20px;
     }
+    .inp{
+             border: 2px solid #40B59F;  /* Set the border color */
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 4px;
+    }
     .btn-next:hover {
     background-color: #339980;
 }
@@ -39,23 +46,26 @@
 <body>
 
   <h2>Enter the number of people in your group</h2>
-  <input
-    type="number"
-    placeholder="Number of people"
-    style="width: 200px; padding: 10px; border-radius: 30px; border: 1px solid #ccc; margin-top: 20px; outline: none;"
-  />
+  <label>
+      <input class="inp"
+        type="number"
+        placeholder="Number of people"
+        style="width: 200px; padding: 10px; border-radius: 30px; border: 1px solid #ccc; margin-top: 20px; outline: none;"
+      />
+  </label>
 
   <h3 style="margin-top: 40px;">Select the age groups of your travel companions</h3>
-  <select
-    multiple
-    style="width: 250px; padding: 10px; border-radius: 10px; border: 1px solid #ccc; margin-top: 20px; outline: none;"
-  >
-    <option value="0-10">0-10 years old</option>
-    <option value="10-15">10-18 years old</option>
-    <option value="15-20">18-30 years old</option>
-    <option value="20-30">30-50 years old</option>
-    <option value="20-30">50+ years old</option>
-  </select>
+  <label>
+      <select id="ageGroups" multiple
+        style="width: 250px; padding: 10px; border-radius: 10px; border: 1px solid #ccc; margin-top: 20px; outline: none;">
+        <option value="0-10">0-10 years old</option>
+        <option value="10-15">10-15 years old</option>
+        <option value="15-20">15-20 years old</option>
+        <option value="20-30">20-30 years old</option>
+        <option value="30-50">30-50 years old</option>
+        <option value="50+">50+ years old</option>
+      </select>
+  </label>
 
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top: 40px;">
     <ol class="carousel-indicators">
@@ -90,10 +100,34 @@
 
   <button class="btn-next" onclick="goToNextPage()">Next Step</button>
 
+  <!-- Hidden form to send the age group data to the server -->
+  <form id="ageGroupsForm" method="post" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" id="selectedAgeGroups" name="age_groups">
+  </form>
+
   <script>
     function goToNextPage() {
-      window.location.href = "{% url 'activities' %}"; // Change to your destination page URL
-    }
+      // Collect the selected age groups
+    const selectedOptions = Array.from(document.getElementById('ageGroups').selectedOptions).map(option => option.value);
+
+    // Save the selected age groups to localStorage
+    localStorage.setItem('selectedAgeGroups', JSON.stringify(selectedOptions));
+
+    // Redirect to the next page
+    window.location.href = "{% url 'activities' %}"; // Change to your destination page URL
+ // Check localStorage for stored age groups and preselect them
+  window.onload = function() {
+      const storedAgeGroups = JSON.parse(localStorage.getItem('selectedAgeGroups'));
+      if (storedAgeGroups) {
+          const ageGroupSelect = document.getElementById('ageGroups');
+          for (let option of ageGroupSelect.options) {
+              if (storedAgeGroups.includes(option.value)) {
+                  option.selected = true;
+              }
+          }
+      }
+  }}
   </script>
 
 </body>
