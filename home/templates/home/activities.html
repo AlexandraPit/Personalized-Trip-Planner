@@ -250,17 +250,26 @@
 
   // Function to handle the next step button click
   function goNext() {
-    // Get the selected hobby and preference values
+    // Get selected hobby and preference
     const hobby = document.getElementById('hobbies').value;
     const preference = document.getElementById('preferences').value;
 
-    // Save the selected values to localStorage
+    // Save the selected values (optional)
     localStorage.setItem('selectedHobby', hobby);
     localStorage.setItem('selectedPreference', preference);
 
-    // Navigate to the next page
-    window.location.href = "{% url 'itinerary' %}";  // Replace with your next page URL
-  }
+    // Assume the city is preselected or stored earlier
+    const cityName = localStorage.getItem('city'); // Ensure this is set
+
+    if (!cityName) {
+        alert("Please select a city before proceeding.");
+        return;
+    }
+
+    // Navigate to the city activities page
+    window.location.href = `/activities_in_city/${cityName}/`;
+
+}
   </script>
 </body>
 </html>

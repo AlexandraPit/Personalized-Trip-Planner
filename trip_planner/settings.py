@@ -76,10 +76,15 @@ WSGI_APPLICATION = 'trip_planner.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',       # Replace with your database name
+        'USER': 'postgres',       # Replace with your database user
+        'PASSWORD': 'parola789',        # Replace with your database password
+        'HOST': 'localhost',                # Replace with your database host (or IP address)
+        'PORT': '5432',                     # Replace with your database port if different
     }
 }
+
 
 
 # Password validation

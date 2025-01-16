@@ -14,132 +14,86 @@
             text-align: center;
             background-color: #f8f8f8;
         }
-
         .search-container {
             margin: 50px auto;
         }
-        .search-container {
-            margin: 50px auto;
-        }
-
         h1 {
             font-size: 24px;
             color: #333;
             margin-bottom: 20px;
         }
-
-        .search-bar {
-            display: inline-flex;
-            align-items: center;
+        .dropdown {
+            display: inline-block;
             border: 2px solid #40B59F;
             border-radius: 25px;
             padding: 10px;
             width: 300px;
             height: 40px;
+            font-size: 16px;
+            color: #333;
+            background-color: white;
         }
-
-        .search-bar input {
+        .dropdown select {
             border: none;
             outline: none;
-            flex-grow: 1;
-            padding: 5px;
+            width: 100%;
+            height: 100%;
             font-size: 16px;
-        }
-
-        .search-bar svg {
-            width: 24px;
-            height: 24px;
-            fill: #40B59F;
-            margin-left: 10px;
-        }
-
-
-        h1 {
-            font-size: 24px;
             color: #333;
-            margin-bottom: 20px;
+            padding: 5px;
+            background: none;
         }
-
         .trending-container {
             margin-top: 50px;
         }
-
         .trending-title {
             font-size: 18px;
             color: #40B59F;
             margin-bottom: 20px;
         }
-
         .carousel {
             display: flex;
-            position: relative;
             justify-content: center;
             overflow: hidden;
             width: 600px;
             margin: 0 auto;
         }
-
         .carousel-wrapper {
             display: flex;
             transition: transform 0.5s ease-in-out;
         }
-
         .carousel-item {
             flex: 0 0 calc(100% / 3);
             text-align: center;
         }
-
         .carousel-item img {
             width: 100px;
             height: 100px;
             border-radius: 10px;
             object-fit: cover;
         }
-
         .carousel-item p {
             font-size: 14px;
             margin: 5px 0;
         }
-
         .carousel-item span {
             font-size: 12px;
             color: gray;
-        }
-
-        .carousel-arrow {
-            background-color: #40B59F;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-        }
-
-        .carousel-arrow.left-arrow {
-            left: -40px;
-        }
-
-        .carousel-arrow.right-arrow {
-            right: -40px;
         }
     </style>
 </head>
 <body>
     <div class="search-container">
         <h1>Enter your destination city</h1>
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <button class="search-button" onclick="goToNextPage()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </button>
+        <div class="dropdown">
+            <select id="cityDropdown">
+                <option value="">Select a city</option>
+                {% for city in cities %}
+                    <option value="{{ city.0 }}">{{ city.1 }}</option>
+                {% endfor %}
+            </select>
         </div>
+            <pre>debug:{{ cities }}</pre>
     </div>
 
     <div class="trending-container">
@@ -193,20 +147,19 @@
         const itemsToShow = 3;
         const totalItems = document.querySelectorAll('.carousel-item').length;
 
-        function goToNextPage(){
-            const city = document.querySelector('.search-bar input').value.trim();
-
+          function goToNextPage() {
+            const city = document.getElementById('cityDropdown').value.trim();
             if (city) {
-                // Option 2: Or store it in localStorage for future use on the next page
-                 localStorage.setItem('selectedCity', city);
-                // Option 1: Send the city via URL as a query parameter
-                window.location.href = `{% url 'userInput' %}`;
-
-
+                localStorage.setItem('city', city);
+                window.location.href = "{% url 'userInput' %}";
             } else {
-                alert("Please enter a city.");
+                alert("Please select a city.");
             }
         }
+
+        // Event listener to trigger page navigation on dropdown change
+        document.getElementById('cityDropdown').addEventListener('change', goToNextPage);
+
 
         const updateCarousel = () => {
             const translateX = -(currentIndex * 100 / itemsToShow);

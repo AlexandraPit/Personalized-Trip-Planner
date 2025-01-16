@@ -55,24 +55,25 @@
         <tbody>
             {% for activity in activities %}
             <tr>
-                <td>{{ activity.activity_id }}</td>
-                <td>{{ activity.title }}</td>
-                <td>{{ activity.description }}</td>
-                <td>{{ activity.opening_hour }}</td>
-                <td>{{ activity.closing_hour }}</td>
-                <td>{{ activity.latitude }}</td>
-                <td>{{ activity.longitude }}</td>
-                <td>{{ activity.city_id }}</td>
-                <td>{{ activity.image_id }}</td>
+                <td>{{ activity.0 }}</td>
+                <td>{{ activity.1 }}</td>
+                <td>{{ activity.2 }}</td>
+                <td>{{ activity.3 }}</td>
+                <td>{{ activity.4 }}</td>
+                <td>{{ activity.5 }}</td>
+                <td>{{ activity.6 }}</td>
+                <td>{{ activity.7 }}</td>
+                <td>{{ activity.8 }}</td>
                 <td>
-                     <a href="{% url 'edit_activity' activity.activity_id %}" class="btn">Edit</a>
-                     <a href="{% url 'delete_activity' activity.activity_id %}" class="btn" onclick="return confirm('Are you sure you want to delete this activity?');">Delete</a>
+                     <a href="{% url 'edit_activity' activity_id=activity.0 %}" class="btn">Edit</a>
+                     <a href="{% url 'delete_activity' activity_id=activity.0%}" class="btn" onclick="return confirm('Are you sure you want to delete this activity?');">Delete</a>
+                    <a href="{% url 'add_activity' activity_id=activity.0 %}" class="btn">Add</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-     <a href="{% url 'add_activity' activity.activity_id %}" class="btn">Add</a>
+
      <a href="{% url 'admin_logout' %}" class="btn" style="background-color: #FF0000; color: white;">Logout</a>
 
     <script>

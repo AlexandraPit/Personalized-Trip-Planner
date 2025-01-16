@@ -2,7 +2,7 @@ from django.core.checks import messages
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from .models import Activity  # Import your Activity model
+from .models import City, Activity, Image  # Import your Activity model
 def homepage(request):
     return render(request, 'home/homepage.html')
 def destination(request):
@@ -24,7 +24,7 @@ def admin_page(request):
 
     return render(request, 'admin.html', {'activities': activities, 'columns': columns})
 
-def add_activity(request):
+def add_activity(request, activity_id):
     if request.method == 'POST':
         # Get data from the form
         title = request.POST['title']
@@ -44,7 +44,17 @@ def add_activity(request):
             """, [title, description, opening_hour, closing_hour, latitude, longitude, city_id, image_id])
         return redirect('admin_page')
 
-    return render(request, 'add_activity.html')
+    # If `activity_id` is provided, fetch data to pre-fill the form
+    initial_data = {}
+    if activity_id:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM activity WHERE activity_id=%s", [activity_id])
+            columns = [col[0] for col in cursor.description]
+            data = cursor.fetchone()
+            if data:
+                initial_data = dict(zip(columns, data))
+
+    return render(request, 'add_activity.html', {'initial_data': initial_data})
 
 
 def delete_activity(request, activity_id):
@@ -100,6 +110,12 @@ def admin_logout(request):
     return redirect('admin_login')
 
 
+def plan_trip(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM city")
+        cities = cursor.fetchall()
+
+    return render(request, 'home/destination.html', {'cities': cities})
 def search_cities(request):
     query = request.GET.get('query', '')  # Get the search query from the request
     if query:
@@ -109,3 +125,27 @@ def search_cities(request):
         city_names = []
 
     return JsonResponse({'cities': city_names})
+def city_activities(request, city_name):
+    # Filter activities by the city name (through the related City model)
+    activitiesFetched = Activity.objects.filter(city__name__icontains=city_name)
+
+    return render(request, 'home/city_activities.html', {
+        'city_name': city_name,
+        'activities': activitiesFetched
+    })
+
+
+def activities_in_city(request, city_id):
+    # Fetch the selected city object using the city_id
+    selected_city = City.objects.get(city_id=city_id)
+
+    # Filter activities by the selected city's ID
+    activities_city = Activity.objects.filter(city__city_id=city_id)
+
+
+
+    return render(request, 'home/activities_in_city.html', {
+        'selected_city': selected_city,
+        'activities': activities_city,
+        'city_name': selected_city.name
+    })
