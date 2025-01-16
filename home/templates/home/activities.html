@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalized Trip Planner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      max-width: 1200px;
+      margin: 50px auto;
+    }
+    .carousel-container{
+       width: 150px;
+    height: 660px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .carousel {
+      width: 150px;
+      height: 560px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .carousel-item {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+      margin: 10px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .carousel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .arrow {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #40B59F;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .arrow.up {
+      top: 0; /* Position above the carousel container */
+      {#left: 50%;#}
+      {#transform: translateX(-50%);#}
+    }
+
+    .arrow.down {
+      bottom: 0; /* Position below the carousel container */
+      {#left: 50%;#}
+      {#transform: translateX(-50%);#}
+    }
+
+    .middle-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+    }
+
+    .middle-section h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .dropdown {
+      margin: 20px 0;
+      width: 80%;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #fff;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    .buttons button {
+      background-color: #40B59F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .buttons button:hover {
+      background-color: #339980;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <div class="carousel-container">
+    <!-- Left Carousel -->
+      <button class="arrow up" data-carousel="left">&uarr;</button>
+    <div class="carousel">
+      <div class="carousel-inner" id="left-carousel">
+        <div class="carousel-item"><img src="{% static 'images/bike.jpeg' %}" alt="Bike"></div>
+        <div class="carousel-item"><img src="{% static 'images/camera.jpeg' %}" alt="Photography"></div>
+        <div class="carousel-item"><img src="{% static 'images/forest.jpeg' %}" alt="Nature"></div>
+        <div class="carousel-item"><img src="{% static 'images/painting.jpeg' %}" alt="Painting"></div>
+        <div class="carousel-item"><img src="{% static 'images/restaurant.jpeg' %}" alt="Restaurant"></div>
+        <div class="carousel-item"><img src="{% static 'images/spa.jpeg' %}" alt="Spa"></div>
+        <div class="carousel-item"><img src="{% static 'images/swimming.jpeg' %}" alt="Swimming"></div>
+      </div>
+    </div>
+      <button class="arrow down" data-carousel="left">&darr;</button>
+  </div>
+    <!-- Middle Section -->
+    <div class="middle-section">
+      <h2>Tell us more about yourself</h2>
+      <div class="dropdown">
+        <label for="hobbies">Select Hobbies:</label>
+        <select id="hobbies">
+          <option value="Museums">Museums</option>
+          <option value="theatre">Theatre</option>
+          <option value="concerts">Concerts</option>
+          <option value="photography">Photography</option>
+          <option value="yoga">Yoga</option>
+          <option value="hiking">Hiking</option>
+          <option value="swimming">Swimming</option>
+          <option value="walks">Walks</option>
+          <option value="shopping">Shopping</option>
+          <option value="cruises">Cruises</option>
+          <option value="restaurants">Restaurants</option>
+          <option value="coffee">Coffee Shops</option>
+          <option value="wine">Wine Tasting</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <label for="preferences">Select Travel Preferences:</label>
+        <select id="preferences">
+          <option value="art">Art</option>
+          <option value="sport">Sport</option>
+          <option value="relaxations">Relaxation</option>
+          <option value="food&drinks">Food & Drinks</option>
+        </select>
+      </div>
+      <div class="buttons">
+        <button onclick="goBack()">Skip</button>
+        <button onclick="goNext()">Next Step</button>
+      </div>
+    </div>
+
+   <div class="carousel-container">
+    <!-- Right Carousel -->
+       <button class="arrow up" data-carousel="right">&uarr;</button>
+   <div class="carousel">
+
+      <div class="carousel-inner" id="right-carousel">
+        <div class="carousel-item"><img src="{% static 'images/yoga.jpeg' %}" alt="Yoga"></div>
+        <div class="carousel-item"><img src="{% static 'images/beach.jpeg' %}" alt="Beach"></div>
+        <div class="carousel-item"><img src="{% static 'images/roadtrip.jpeg' %}" alt="Cycling"></div>
+        <div class="carousel-item"><img src="{% static 'images/mountains.jpeg' %}" alt="Hiking"></div>
+        <div class="carousel-item"><img src="{% static 'images/cafe.jpeg' %}" alt="cafe"></div>
+        <div class="carousel-item"><img src="{% static 'images/restaurants.jpeg' %}" alt="restaurants"></div>
+        <div class="carousel-item"><img src="{% static 'images/church.jpeg' %}" alt="church"></div>
+      </div>
+    </div>
+         <button class="arrow down" data-carousel="right">&darr;</button>
+   </div>
+  </div>
+
+  <script>
+    const carousels = {
+      left: { translateY: 0, items: 6 }, // Adjust item count for left carousel
+      right: { translateY: 0, items: 6 }, // Adjust item count for right carousel
+    };
+
+    const itemHeight = 140; // Carousel item height + margin
+    const visibleItems = 3; // Number of visible items
+
+    document.querySelectorAll(".arrow").forEach((arrow) => {
+      arrow.addEventListener("click", () => {
+        const side = arrow.getAttribute("data-carousel");
+        const direction = arrow.classList.contains("up") ? 1 : -1;
+        const carousel = document.getElementById(`${side}-carousel`);
+        const totalHeight = carousels[side].items * itemHeight;
+
+        // Update translation value
+        carousels[side].translateY += direction * itemHeight;
+
+        // Constrain translation
+        const minTranslate = -(totalHeight - visibleItems * itemHeight);
+        carousels[side].translateY = Math.min(0, Math.max(minTranslate, carousels[side].translateY));
+
+        carousel.style.transform = `translateY(${carousels[side].translateY}px)`;
+      });
+    });
+
+    function goBack() {
+      alert("Navigating to previous page!");
+    }
+
+    function goNext() {
+      window.location.href = "{% url 'itinerary' %}";
+    }
+  </script>
+</body>
+</html>

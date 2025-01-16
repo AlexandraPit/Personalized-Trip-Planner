@@ -25,4 +25,6 @@ urlpatterns = [
     path('',homepage, name='homepage'),
     path('destination/', views.destination, name='destination'),
     path('userInput/', views.userInput, name='userInput'),
+    path('activities/', views.activities, name='activities'),
+    path('itinerary/', views.itinerary, name='itinerary'),
 ]

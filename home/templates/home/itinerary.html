@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Itinerary</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Castoro+Titling&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      font-family: 'Quicksand', sans-serif;
+      margin-top: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    h1 span {
+      color: #40B59F; /* Match the green tone from your example */
+    }
+
+    #map {
+      width: 80%;
+      height: 500px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Your itinerary in <span id="city-name">Paris</span> is ready</h1>
+  <div id="map"></div>
+
+  <script>
+    const itineraryData = {
+      city: "Paris",
+      origin: { lat: 48.8566, lng: 2.3522 }, // Example start point
+      destination: { lat: 48.8606, lng: 2.3376 }, // Example end point
+      waypoints: [
+        { location: { lat: 48.8599, lng: 2.3265 }, stopover: true }, // Example waypoint
+        { location: { lat: 48.8527, lng: 2.3500 }, stopover: true },
+      ],
+    };
+
+    document.getElementById("city-name").innerText = itineraryData.city;
+
+    function initMap() {
+      // Create a map centered on the origin
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 14,
+        center: itineraryData.origin,
+      });
+
+      // Add directions
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+
+      const request = {
+        origin: itineraryData.origin,
+        destination: itineraryData.destination,
+        waypoints: itineraryData.waypoints,
+        travelMode: google.maps.TravelMode.WALKING, // Change to DRIVING, BICYCLING, or TRANSIT if needed
+      };
+
+      directionsService.route(request, (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          directionsRenderer.setDirections(result);
+        } else {
+          console.error("Directions request failed due to " + status);
+        }
+      });
+    }
+
+    // Initialize the map after the page loads
+    window.onload = initMap;
+  </script>
+</body>
+</html>
+
+
